@@ -1,0 +1,29 @@
+{
+  "name": "w03-crud-project",
+  "version": "1.0.0",
+  "description": "CRUD project for contacts and vehicles with Swagger documentation",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "express",
+    "mongoose",
+    "swagger",
+    "crud",
+    "contacts",
+    "vehicles"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0",
+    "swagger-ui-express": "^4.6.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
