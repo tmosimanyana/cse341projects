@@ -1,20 +1,31 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDoc = require('./swagger/swagger.json');
+const swaggerDocument = require('./swagger/swagger.json');
 
-dotenv.config();
 const app = express();
 app.use(express.json());
 
-const contactsRoutes = require('./routes/contacts');
-const vehiclesRoutes = require('./routes/vehicles');
+const port = process.env.PORT || 3000;
 
-app.use('/contacts', contactsRoutes);
-app.use('/vehicles', vehiclesRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+// Routes
+const contactRoutes = require('./routes/contacts');
+const vehicleRoutes = require('./routes/vehicles');
+app.use('/contacts', contactRoutes);
+app.use('/vehicles', vehicleRoutes);
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => app.listen(process.env.PORT || 3000, () => console.log('Server running')))
+// Swagger docs
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// 404 Middleware
+app.use((req, res) => {
+  res.status(404).send({ message: 'Route not found' });
+});
+
+// DB Connection and Server Start
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    app.listen(port, () => console.log(`Server running on port ${port}`));
+  })
   .catch(err => console.error(err));
